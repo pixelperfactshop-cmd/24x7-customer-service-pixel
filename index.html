@@ -2,555 +2,1902 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repair Service Clone (Demo)</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #f3f4f6;
-            --text: #111827;
-            --muted: #6b7280;
-            --dark: #0b0b0b;
-            --highlight: #f59e0b;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Perfect TV Repair</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #ef4444;
+      --secondary-dark: #dc2626;
+      --accent: #3b82f6;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --text: #334155;
+      --text-light: #64748b;
+      --success: #10b981;
+      --card-light: #ffffff;
+      --card-dark: #334155;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition: all 0.3s ease;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    .dark-mode {
+      --light: #0f172a;
+      --dark: #f1f5f9;
+      --text: #e2e8f0;
+      --text-light: #cbd5e1;
+      --card-light: #1e293b;
+      --card-dark: #334155;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #f9fafb;
-            color: var(--text);
-            line-height: 1.5;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
 
-        header {
-            background: #fff;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
 
-        header .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--dark);
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            color: var(--primary);
-        }
+    .dark-mode h1,
+    .dark-mode h2,
+    .dark-mode h3,
+    .dark-mode h4,
+    .dark-mode h5 {
+      color: var(--light);
+    }
 
-        nav {
-            display: flex;
-            gap: 20px;
-        }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            font-size: 15px;
-            position: relative;
-        }
+    section {
+      padding: 100px 0;
+    }
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: 0.3s;
-        }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient);
+      color: white;
+      padding: 14px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
 
-        nav a:hover::after {
-            width: 100%;
-        }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent) 100%);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
 
-        .hero {
-            padding: 70px 20px;
-            background: linear-gradient(135deg, #e0f2fe, #fff);
-        }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
 
-        .hero .container {
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 40px;
-        }
+    .btn:hover::before {
+      opacity: 1;
+    }
 
-        .hero-text {
-            flex: 1;
-            min-width: 280px;
-        }
+    .btn i {
+      margin-right: 8px;
+    }
 
-        .hero-text h1 {
-            font-size: 36px;
-            margin: 0 0 20px;
-            line-height: 1.2;
-        }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
 
-        .hero-text p {
-            color: var(--muted);
-            font-size: 16px;
-        }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
 
-        .hero-buttons {
-            margin-top: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+    .section-title h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-        }
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
 
-        .btn-primary:hover {
-            background: #1e4fd9;
-        }
+    .section-title p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .btn-outline {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
+    /* Header Styles */
+    header {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      color: var(--dark);
+      padding: 18px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+    }
 
-        .btn-outline:hover {
-            background: var(--primary);
-            color: #fff;
-        }
+    .dark-mode header {
+      background-color: rgba(30, 41, 59, 0.95);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-        .hero-img {
-            flex: 1;
-            min-width: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .hero-img div {
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 4/3;
-            background: #fff;
-            border-radius: 16px;
-            border: 1px solid #ddd;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
 
-        section {
-            padding: 60px 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
+    .dark-mode .logo {
+      color: var(--light);
+    }
 
-        section h2 {
-            text-align: center;
-            font-size: 26px;
-            margin-bottom: 10px;
-        }
+    .logo span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-        section p.subtitle {
-            text-align: center;
-            color: var(--muted);
-            margin-bottom: 40px;
-        }
+    .logo i {
+      margin-right: 10px;
+      font-size: 2rem;
+      color: var(--primary);
+    }
 
-        .grid {
-            display: grid;
-            gap: 25px;
-        }
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
 
-        .services {
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        }
+    nav ul li {
+      margin-left: 30px;
+    }
 
-        .service-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #eee;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    nav ul li a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+    .dark-mode nav ul li a {
+      color: var(--light);
+    }
 
-        .service-card div.icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient);
+      transition: var(--transition);
+    }
 
-        .service-card h4 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
+    nav ul li a:hover {
+      color: var(--primary);
+    }
 
-        .service-card p {
-            color: var(--muted);
-            font-size: 14px;
-        }
+    nav ul li a:hover::after {
+      width: 100%;
+    }
 
-        .about {
-            display: grid;
-            gap: 40px;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-        }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        .about-text {
-            font-size: 15px;
-            color: var(--muted);
-        }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 20px;
-        }
+    .dark-mode .menu-toggle {
+      color: var(--light);
+    }
 
-        .stat {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            text-align: center;
-        }
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--dark);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light);
+      box-shadow: var(--shadow);
+    }
 
-        .stat .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--primary);
-        }
+    .dark-mode .theme-toggle {
+      color: var(--light);
+      background: var(--dark);
+    }
 
-        .faq .item {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .theme-toggle:hover {
+      color: var(--primary);
+      transform: rotate(30deg);
+    }
 
-        .faq .item:hover {
-            background: #f9fafb;
-        }
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      padding: 180px 0 120px;
+      margin-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .faq .item strong {
-            display: block;
-            margin-bottom: 8px;
-        }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient);
+      opacity: 0.3;
+      z-index: 0;
+    }
 
-        form {
-            background: #fff;
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid #eee;
-            max-width: 600px;
-            margin: auto;
-        }
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards 0.5s;
+    }
 
-        form input,
-        form textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+      color: white;
+    }
 
-        form button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
 
-        form button:hover {
-            background: #1e4fd9;
-        }
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-        .bottom-cta {
-            background: #f0f8ff;
-            padding: 50px 20px;
-            text-align: center;
-        }
+    /* Stats Section */
+    .stats {
+      background: var(--gradient);
+      color: white;
+      padding: 80px 0;
+    }
 
-        .bottom-cta h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
 
-        .bottom-cta .stats-inline {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    .stat-item {
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
 
-        .bottom-cta .stats-inline div {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--highlight);
-        }
+    .stat-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-        .bottom-cta .stats-inline p {
-            font-size: 14px;
-            color: var(--muted);
-            margin: 5px 0 0;
-        }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+    }
 
-        footer {
-            background: var(--dark);
-            color: #d1d5db;
-            padding: 40px 20px;
-            font-size: 14px;
-            margin-top: 0;
-        }
+    .stat-text {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
 
-        .footer-container {
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Services Section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
 
-        .footer-left {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .service-card {
+      background: var(--card-light);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(20px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
 
-        .footer-right {
-            font-size: 14px;
-            color: #d1d5db;
-        }
+    .dark-mode .service-card {
+      background: var(--card-dark);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
 
-        .footer-right p {
-            margin: 6px 0;
-        }
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .footer-right strong {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-            color: #fff;
-        }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
 
-        @media(max-width:768px) {
-            nav {
-                display: none;
-            }
+    .service-img {
+      height: 200px;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-            .about {
-                grid-template-columns: 1fr;
-            }
+    .service-img::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+    }
 
-            .hero .container {
-                flex-direction: column;
-                text-align: center;
-            }
+    .service-content {
+      padding: 25px;
+    }
 
-            .hero-buttons {
-                justify-content: center;
-            }
+    .service-content h3 {
+      margin-bottom: 15px;
+      color: var(--dark);
+      font-size: 1.5rem;
+    }
 
-            .footer-container {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+    .dark-mode .service-content h3 {
+      color: var(--light);
+    }
+
+    .service-content p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .service-features {
+      margin-bottom: 20px;
+    }
+
+    .service-features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+
+    .service-features li i {
+      color: var(--success);
+      margin-right: 10px;
+    }
+
+    /* Image Carousel */
+    .carousel-section {
+      background: var(--light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark-mode .carousel-section {
+      background: var(--dark);
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 1000px;
+      margin: 40px auto;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      display: block;
+      height: 500px;
+      object-fit: cover;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .carousel-caption h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .carousel-control {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-control:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .carousel-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .carousel-indicator.active {
+      background: var(--primary);
+      transform: scale(1.2);
+    }
+
+    /* About Section */
+    .about {
+      background: var(--light);
+      position: relative;
+    }
+
+    .dark-mode .about {
+      background: var(--dark);
+    }
+
+    .about-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .about-text.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .about-text h3 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+
+    .dark-mode .about-text h3 {
+      color: var(--light);
+    }
+
+    .about-text p {
+      margin-bottom: 20px;
+      color: var(--text-light);
+    }
+
+    .about-features {
+      margin-bottom: 30px;
+    }
+
+    .about-features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+
+    .about-features li i {
+      color: var(--primary);
+      margin-right: 15px;
+      font-size: 1.2rem;
+      width: 30px;
+      height: 30px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-image {
+      flex: 1;
+      min-width: 300px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateX(20px);
+    }
+
+    .about-image.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .about-image:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Testimonials */
+    .testimonials-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .testimonial {
+      background: var(--card-light);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-mode .testimonial {
+      background: var(--card-dark);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .testimonial.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 4px solid var(--primary);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--text-light);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .testimonial-text::before,
+    .testimonial-text::after {
+      content: '"';
+      font-size: 3rem;
+      color: var(--primary);
+      opacity: 0.2;
+      position: absolute;
+      font-family: serif;
+    }
+
+    .testimonial-text::before {
+      top: -20px;
+      left: -15px;
+    }
+
+    .testimonial-text::after {
+      bottom: -40px;
+      right: -15px;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+
+    .dark-mode .testimonial-author {
+      color: var(--light);
+    }
+
+    .testimonial-role {
+      color: var(--primary);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .testimonial-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .testimonial-nav button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin: 0 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .testimonial-nav button:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1);
+    }
+
+    /* Contact Section */
+    .contact {
+      background: var(--light);
+      position: relative;
+    }
+
+    .dark-mode .contact {
+      background: var(--dark);
+    }
+
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+
+    .contact-info,
+    .contact-form {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .contact-info h3 {
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-size: 1.8rem;
+    }
+
+    .dark-mode .contact-info h3 {
+      color: var(--light);
+    }
+
+    .contact-details {
+      margin-bottom: 40px;
+    }
+
+    .contact-details p {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      color: var(--text-light);
+    }
+
+    .contact-details i {
+      margin-right: 15px;
+      color: var(--primary);
+      width: 20px;
+      height: 20px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hours h4 {
+      margin-bottom: 15px;
+      color: var(--dark);
+      font-size: 1.3rem;
+    }
+
+    .dark-mode .hours h4 {
+      color: var(--light);
+    }
+
+    .hours p {
+      color: var(--text-light);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hours p i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .dark-mode .form-group label {
+      color: var(--light);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 15px 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: var(--card-light);
+      color: var(--text);
+      transition: var(--transition);
+    }
+
+    .dark-mode .form-group input,
+    .dark-mode .form-group textarea,
+    .dark-mode .form-group select {
+      background-color: var(--card-dark);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 80px 0 30px;
+      position: relative;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+      justify-content: space-between;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 25px;
+      position: relative;
+      padding-bottom: 15px;
+      color: white;
+    }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .footer-col p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-col ul li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-col ul li a i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--primary);
+      padding-left: 5px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    /* Floating Buttons */
+    .floating-buttons {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .floating-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateX(100px);
+      animation: slideIn 0.5s forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .floating-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .floating-btn:hover::before {
+      opacity: 1;
+    }
+
+    .floating-btn.whatsapp {
+      background: #25D366;
+      animation-delay: 0.5s;
+    }
+
+    .floating-btn.call {
+      background: var(--primary);
+      animation-delay: 0.7s;
+    }
+
+    .floating-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .bounce {
+      animation: bounce 2s infinite;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-10px);
+      }
+
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.3rem;
+      }
+
+      nav ul li {
+        margin-left: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        position: fixed;
+        top: 76px;
+        left: -100%;
+        width: 80%;
+        height: calc(100vh - 76px);
+        background: var(--card-light);
+        transition: 0.5s;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        padding: 40px 20px;
+      }
+
+      .dark-mode nav {
+        background: var(--card-dark);
+      }
+
+      nav.active {
+        left: 0;
+      }
+
+      nav ul {
+        flex-direction: column;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      nav ul li a {
+        font-size: 1.1rem;
+      }
+
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .floating-buttons {
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .floating-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+      }
+
+      .carousel-caption h3 {
+        font-size: 1.4rem;
+      }
+
+      .carousel-control {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+
+      .carousel-item img {
+        height: 400px;
+      }
+
+      .about-content {
+        gap: 40px;
+      }
+
+      .testimonial {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 150px 0 100px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 12px 25px;
+      }
+
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+
+      section {
+        padding: 80px 0;
+      }
+
+      .carousel-item img {
+        height: 300px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-container {
+        gap: 40px;
+      }
+
+      .footer-col {
+        min-width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo"><i class="fas fa-tv"></i>Pixel <span>Perfect</span></a>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <header>
-        <div class="container">
-            <div class="logo">⚡ Repair Service</div>
-            <nav>
-                <a href="#home">Home</a>
-                <a href="#services">Services</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-content">
+      <h1>Pixel Perfect TV Repair Services</h1>
+      <p>Expert TV repair services with precision and care. We bring your screen back to perfect condition with a 90-day
+        warranty on all repairs!</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn"><i class="fas fa-calendar-alt"></i> Schedule a Repair</a>
+        <a href="#services" class="btn btn-outline"><i class="fas fa-info-circle"></i> Our Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-count="15">0</div>
+          <div class="stat-text">Years Experience</div>
         </div>
-    </header>
-
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-text">
-                <h1>Fast & Reliable Home Appliance Repair</h1>
-                <p>We bring your TV, AC, washing machine, and refrigerator back to life with expert technicians and
-                    genuine parts.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Request a Quote</a>
-                    <a href="tel:+919999999999" class="btn btn-outline">Call Us</a>
-                </div>
-            </div>
-            <div class="hero-img">
-                <div>🏠</div>
-            </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="2500">0</div>
+          <div class="stat-text">TVs Repaired</div>
         </div>
-    </section>
+        <div class="stat-item">
+          <div class="stat-number" data-count="98">0</div>
+          <div class="stat-text">Success Rate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-text">Happy Clients</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section id="services">
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <div class="section-title">
         <h2>Our Services</h2>
-        <p class="subtitle">We cover a wide range of home appliances</p>
-        <div class="grid services">
-            <div class="service-card">
-                <div class="icon">📺</div>
-                <h4>TV Repair</h4>
-                <p>Fix display, sound, and connectivity issues.</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">🧺</div>
-                <h4>Washing Machine</h4>
-                <p>Resolve drainage, drum, and error code issues.</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">❄️</div>
-                <h4>AC Repair</h4>
-                <p>Get cooling issues, servicing, and gas refills done.</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">🥶</div>
-                <h4>Refrigerator</h4>
-                <p>Handle cooling loss, leaks, and thermostat issues.</p>
-            </div>
+        <p>We provide comprehensive TV repair services for all types of televisions</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-img">
+            <i class="fas fa-tv"></i>
+          </div>
+          <div class="service-content">
+            <h3>LCD/LED TV Repair</h3>
+            <p>Expert repair for LCD and LED televisions including screen replacement, backlight issues, and power
+              supply problems.</p>
+            <ul class="service-features">
+              <li><i class="fas fa-check-circle"></i> Screen replacement</li>
+              <li><i class="fas fa-check-circle"></i> Backlight repair</li>
+              <li><i class="fas fa-check-circle"></i> Power supply fix</li>
+            </ul>
+            <a href="#contact" class="btn"><i class="fas fa-envelope"></i> Get Quote</a>
+          </div>
         </div>
-    </section>
-
-    <section id="about">
-        <h2>Why Choose Us</h2>
-        <p class="subtitle">Trusted by thousands for reliable appliance service</p>
-        <div class="about">
-            <div class="about-text">
-                <p>We are committed to providing safe, fast, and affordable repair services. Our technicians are
-                    certified, and we ensure clear communication throughout the process.</p>
-                <ul>
-                    <li>✔ Expert Technicians</li>
-                    <li>✔ Genuine Parts</li>
-                    <li>✔ Transparent Pricing</li>
-                </ul>
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <div class="value">12+</div>
-                    <div>Years Experience</div>
-                </div>
-                <div class="stat">
-                    <div class="value">30k+</div>
-                    <div>Repairs Completed</div>
-                </div>
-                <div class="stat">
-                    <div class="value">98%</div>
-                    <div>Customer Satisfaction</div>
-                </div>
-            </div>
+        <div class="service-card">
+          <div class="service-img">
+            <i class="fas fa-tv"></i>
+          </div>
+          <div class="service-content">
+            <h3>OLED TV Repair</h3>
+            <p>Specialized repair services for OLED TVs including pixel refresh, burn-in mitigation, and panel
+              replacement.</p>
+            <ul class="service-features">
+              <li><i class="fas fa-check-circle"></i> Pixel refresh</li>
+              <li><i class="fas fa-check-circle"></i> Burn-in mitigation</li>
+              <li><i class="fas fa-check-circle"></i> Panel replacement</li>
+            </ul>
+            <a href="#contact" class="btn"><i class="fas fa-envelope"></i> Get Quote</a>
+          </div>
         </div>
-    </section>
-
-    <section class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <p class="subtitle">Quick answers for your queries</p>
-        <div class="grid">
-            <div class="item"><strong>What appliances do you repair?</strong> TVs, washing machines, refrigerators, and
-                ACs.</div>
-            <div class="item"><strong>How to book a service?</strong> Use the contact form or call us directly.</div>
-            <div class="item"><strong>Do you provide genuine parts?</strong> Yes, all parts are authentic with warranty
-                options.</div>
-            <div class="item"><strong>What are service hours?</strong> We are available Mon–Sat, 9am–8pm.</div>
+        <div class="service-card">
+          <div class="service-img">
+            <i class="fas fa-tv"></i>
+          </div>
+          <div class="service-content">
+            <h3>Plasma TV Repair</h3>
+            <p>Repair services for plasma TVs including board replacement, buzzing sound issues, and image retention
+              problems.</p>
+            <ul class="service-features">
+              <li><i class="fas fa-check-circle"></i> Board replacement</li>
+              <li><i class="fas fa-check-circle"></i> Sound issues fix</li>
+              <li><i class="fas fa-check-circle"></i> Image retention</li>
+            </ul>
+            <a href="#contact" class="btn"><i class="fas fa-envelope"></i> Get Quote</a>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="contact">
+  <!-- Image Carousel -->
+  <section id="gallery" class="carousel-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Work Gallery</h2>
+        <p>See examples of our TV repair projects and satisfied customers</p>
+      </div>
+      <div class="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item">
+            <img
+              src="https://images.unsplash.com/photo-1595941069915-4ebc6b81feb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+              alt="TV Repair">
+            <div class="carousel-caption">
+              <h3>LED Screen Replacement</h3>
+              <p>Professional screen replacement for damaged LED TVs</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+              alt="TV Installation">
+            <div class="carousel-caption">
+              <h3>TV Mounting Service</h3>
+              <p>Professional TV mounting with cable management</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://images.unsplash.com/photo-1599669454699-248893623464?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="TV Diagnostics">
+            <div class="carousel-caption">
+              <h3>Advanced Diagnostics</h3>
+              <p>Using specialized equipment to diagnose TV issues</p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-indicators">
+          <button class="carousel-indicator active"></button>
+          <button class="carousel-indicator"></button>
+          <button class="carousel-indicator"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>About Us</h2>
+        <p>Why choose Pixel Perfect for your TV repair needs</p>
+      </div>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>We've been perfecting TV repair for over 15 years</h3>
+          <p>Pixel Perfect TV Repair was established in 2008 with a mission to provide high-quality, affordable TV
+            repair services to our community. Our team of certified technicians has extensive experience with all major
+            TV brands and types.</p>
+          <p>We pride ourselves on our quick response times, transparent pricing, and commitment to customer
+            satisfaction. All our repairs come with a 90-day warranty for your peace of mind.</p>
+          <ul class="about-features">
+            <li><i class="fas fa-check"></i> Certified and experienced technicians</li>
+            <li><i class="fas fa-check"></i> 90-day warranty on all repairs</li>
+            <li><i class="fas fa-check"></i> Same-day service available</li>
+            <li><i class="fas fa-check"></i> Free diagnostic with repair</li>
+            <li><i class="fas fa-check"></i> On-site and in-shop services</li>
+          </ul>
+          <a href="#contact" class="btn"><i class="fas fa-phone-alt"></i> Contact Us Today</a>
+        </div>
+        <div class="about-image">
+          <img
+            src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
+            alt="TV Repair Technician">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>Customer Testimonials</h2>
+        <p>What our customers say about our services</p>
+      </div>
+      <div class="testimonials-container">
+        <div class="testimonial active">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer">
+          <p class="testimonial-text">My LED TV started having issues with the backlight. Pixel Perfect diagnosed the
+            problem quickly and repaired it at a reasonable price. Very professional service!</p>
+          <p class="testimonial-author">James Wilson</p>
+          <p class="testimonial-role">Business Owner</p>
+        </div>
+        <div class="testimonial">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer">
+          <p class="testimonial-text">I was worried about my OLED TV's burn-in issues. The technician from Pixel Perfect
+            explained everything clearly and performed a pixel refresh that solved the problem completely.</p>
+          <p class="testimonial-author">Sarah Johnson</p>
+          <p class="testimonial-role">Graphic Designer</p>
+        </div>
+        <div class="testimonial">
+          <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="Customer">
+          <p class="testimonial-text">Great service! They came to my home the same day I called, fixed my TV on the
+            spot, and the price was very fair. Will definitely use them again.</p>
+          <p class="testimonial-author">Robert Davis</p>
+          <p class="testimonial-role">Teacher</p>
+        </div>
+        <div class="testimonial-nav">
+          <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+          <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-title">
         <h2>Contact Us</h2>
-        <p class="subtitle">We’ll respond quickly to your request</p>
-        <form>
-            <input type="text" placeholder="Your Name" required>
-            <input type="text" placeholder="Phone Number" required>
-            <input type="email" placeholder="Email Address">
-            <textarea placeholder="Appliance & Issue" rows="4"></textarea>
-            <button type="submit">Submit Request</button>
-        </form>
-    </section>
-
-    <section class="bottom-cta">
-        <h2>Bangalore’s Favourite Trusted Service Partner</h2>
-        <div class="stats-inline">
-            <div><span>12200+</span>
-                <p>Happy Customers</p>
-            </div>
-            <div><span>15800+</span>
-                <p>Services Fulfilled</p>
-            </div>
-            <div><span>20+</span>
-                <p>Expert Technicians</p>
-            </div>
+        <p>Get in touch with us for a free estimate</p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info">
+          <h3>Get In Touch</h3>
+          <div class="contact-details">
+            <p><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Electronics City</p>
+            <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@pixelperfect.com</p>
+          </div>
+          <div class="hours">
+            <h4>Business Hours</h4>
+            <p><i class="fas fa-clock"></i> Monday - Friday: 8:00 AM - 6:00 PM</p>
+            <p><i class="fas fa-clock"></i> Saturday: 9:00 AM - 4:00 PM</p>
+            <p><i class="fas fa-clock"></i> Sunday: Closed</p>
+          </div>
         </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-left">📺 Home Appliances Service</div>
-            <div class="footer-right">
-                <strong>WE ARE JUST ONE CALL AWAY</strong>
-                <p>📞 +91-***********</p>
-                <p>📍 Bengaluru, Karnataka 560025</p>
-                <p>⏰ Monday – Saturday 9 am to 8 pm</p>
+        <div class="contact-form">
+          <form id="repairForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" required>
             </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+              <label for="tvtype">TV Type</label>
+              <select id="tvtype" required>
+                <option value="">Select TV Type</option>
+                <option value="lcd">LCD/LED</option>
+                <option value="oled">OLED</option>
+                <option value="plasma">Plasma</option>
+                <option value="crt">CRT</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="issue">Describe the Issue</label>
+              <textarea id="issue" required></textarea>
+            </div>
+            <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Schedule Repair</button>
+          </form>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-col">
+        <h4>Pixel Perfect TV Repair</h4>
+        <p>Professional TV repair services with over 15 years of experience. We fix all brands and models with a 90-day
+          warranty.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+          <li><a href="#gallery"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+          <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li><a href="#testimonials"><i class="fas fa-chevron-right"></i> Testimonials</a></li>
+          <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Our Services</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> LCD/LED TV Repair</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> OLED TV Repair</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Plasma TV Repair</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> TV Installation</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Maintenance Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Electronics City</a></li>
+          <li><a href="tel:5551234567"><i class="fas fa-phone"></i> (555) 123-4567</a></li>
+          <li><a href="mailto:info@pixelperfect.com"><i class="fas fa-envelope"></i> info@pixelperfect.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 Pixel Perfect TV Repair. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="floating-buttons">
+    <a href="https://wa.me/15551234567?text=Hello%20Pixel%20Perfect%2C%20I%20need%20help%20with%20my%20TV%20repair"
+      class="floating-btn whatsapp bounce">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="tel:5551234567" class="floating-btn call bounce">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.querySelector( '.menu-toggle' )
+    const nav = document.querySelector( 'nav' )
+
+    menuToggle.addEventListener( 'click', () => {
+      nav.classList.toggle( 'active' )
+      menuToggle.querySelector( 'i' ).classList.toggle( 'fa-bars' )
+      menuToggle.querySelector( 'i' ).classList.toggle( 'fa-times' )
+    } )
+
+    // Close mobile menu when clicking on a link
+    const navLinks = document.querySelectorAll( 'nav ul li a' )
+    navLinks.forEach( link => {
+      link.addEventListener( 'click', () => {
+        nav.classList.remove( 'active' )
+        menuToggle.querySelector( 'i' ).classList.add( 'fa-bars' )
+        menuToggle.querySelector( 'i' ).classList.remove( 'fa-times' )
+      } )
+    } )
+
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById( 'themeToggle' )
+    const themeIcon = themeToggle.querySelector( 'i' )
+
+    // Check for saved theme preference
+    if( localStorage.getItem( 'theme' ) === 'dark' ) {
+      document.body.classList.add( 'dark-mode' )
+      themeIcon.classList.remove( 'fa-moon' )
+      themeIcon.classList.add( 'fa-sun' )
+    }
+
+    themeToggle.addEventListener( 'click', () => {
+      document.body.classList.toggle( 'dark-mode' )
+      if( document.body.classList.contains( 'dark-mode' ) ) {
+        themeIcon.classList.remove( 'fa-moon' )
+        themeIcon.classList.add( 'fa-sun' )
+        localStorage.setItem( 'theme', 'dark' )
+      } else {
+        themeIcon.classList.remove( 'fa-sun' )
+        themeIcon.classList.add( 'fa-moon' )
+        localStorage.setItem( 'theme', 'light' )
+      }
+    } )
+
+    // Image Carousel
+    const carousel = document.querySelector( '.carousel-inner' )
+    const carouselItems = document.querySelectorAll( '.carousel-item' )
+    const prevButton = document.querySelector( '.carousel-control.prev' )
+    const nextButton = document.querySelector( '.carousel-control.next' )
+    const indicators = document.querySelectorAll( '.carousel-indicator' )
+    let currentIndex = 0
+    let autoSlideInterval
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${ currentIndex * 100 }%)`
+      indicators.forEach( ( indicator, index ) => {
+        indicator.classList.toggle( 'active', index === currentIndex )
+      } )
+    }
+
+    function startAutoSlide() {
+      autoSlideInterval = setInterval( () => {
+        currentIndex = ( currentIndex + 1 ) % carouselItems.length
+        updateCarousel()
+      }, 5000 )
+    }
+
+    function stopAutoSlide() {
+      clearInterval( autoSlideInterval )
+    }
+
+    prevButton.addEventListener( 'click', () => {
+      stopAutoSlide()
+      currentIndex = ( currentIndex - 1 + carouselItems.length ) % carouselItems.length
+      updateCarousel()
+      startAutoSlide()
+    } )
+
+    nextButton.addEventListener( 'click', () => {
+      stopAutoSlide()
+      currentIndex = ( currentIndex + 1 ) % carouselItems.length
+      updateCarousel()
+      startAutoSlide()
+    } )
+
+    indicators.forEach( ( indicator, index ) => {
+      indicator.addEventListener( 'click', () => {
+        stopAutoSlide()
+        currentIndex = index
+        updateCarousel()
+        startAutoSlide()
+      } )
+    } )
+
+    // Start auto slide
+    startAutoSlide()
+
+    // Pause auto slide when hovering over carousel
+    const carouselContainer = document.querySelector( '.carousel' )
+    carouselContainer.addEventListener( 'mouseenter', stopAutoSlide )
+    carouselContainer.addEventListener( 'mouseleave', startAutoSlide )
+
+    // Testimonial Slider
+    const testimonials = document.querySelectorAll( '.testimonial' )
+    const prevBtn = document.querySelector( '.prev-btn' )
+    const nextBtn = document.querySelector( '.next-btn' )
+    let currentTestimonial = 0
+
+    function showTestimonial( index ) {
+      testimonials.forEach( testimonial => testimonial.classList.remove( 'active' ) )
+      testimonials[ index ].classList.add( 'active' )
+    }
+
+    prevBtn.addEventListener( 'click', () => {
+      currentTestimonial--
+      if( currentTestimonial < 0 ) {
+        currentTestimonial = testimonials.length - 1
+      }
+      showTestimonial( currentTestimonial )
+    } )
+
+    nextBtn.addEventListener( 'click', () => {
+      currentTestimonial++
+      if( currentTestimonial >= testimonials.length ) {
+        currentTestimonial = 0
+      }
+      showTestimonial( currentTestimonial )
+    } )
+
+    // Auto rotate testimonials
+    setInterval( () => {
+      currentTestimonial++
+      if( currentTestimonial >= testimonials.length ) {
+        currentTestimonial = 0
+      }
+      showTestimonial( currentTestimonial )
+    }, 7000 )
+
+    // Form Validation
+    const repairForm = document.getElementById( 'repairForm' )
+
+    repairForm.addEventListener( 'submit', ( e ) => {
+      e.preventDefault()
+
+      // Basic validation
+      const name = document.getElementById( 'name' ).value
+      const email = document.getElementById( 'email' ).value
+      const phone = document.getElementById( 'phone' ).value
+      const tvtype = document.getElementById( 'tvtype' ).value
+      const issue = document.getElementById( 'issue' ).value
+
+      if( name && email && phone && tvtype && issue ) {
+        alert( 'Thank you for your repair request! We will contact you shortly to schedule your appointment.' )
+        repairForm.reset()
+      } else {
+        alert( 'Please fill out all fields.' )
+      }
+    } )
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll( 'a[href^="#"]' ).forEach( anchor => {
+      anchor.addEventListener( 'click', function( e ) {
+        e.preventDefault()
+
+        const targetId = this.getAttribute( 'href' )
+        if( targetId === '#' ) return
+
+        const targetElement = document.querySelector( targetId )
+        if( targetElement ) {
+          window.scrollTo( {
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          } )
+        }
+      } )
+    } )
+
+    // Scroll animations
+    function checkScroll() {
+      const serviceCards = document.querySelectorAll( '.service-card' )
+      const aboutText = document.querySelector( '.about-text' )
+      const aboutImage = document.querySelector( '.about-image' )
+      const statNumbers = document.querySelectorAll( '.stat-number' )
+
+      serviceCards.forEach( card => {
+        const cardPosition = card.getBoundingClientRect().top
+        const screenPosition = window.innerHeight / 1.3
+
+        if( cardPosition < screenPosition ) {
+          card.classList.add( 'visible' )
+        }
+      } )
+
+      if( aboutText ) {
+        const aboutTextPosition = aboutText.getBoundingClientRect().top
+        const aboutImagePosition = aboutImage.getBoundingClientRect().top
+        const screenPosition = window.innerHeight / 1.3
+
+        if( aboutTextPosition < screenPosition ) {
+          aboutText.classList.add( 'visible' )
+        }
+
+        if( aboutImagePosition < screenPosition ) {
+          aboutImage.classList.add( 'visible' )
+        }
+      }
+
+      // Animate stats counting
+      statNumbers.forEach( stat => {
+        const statPosition = stat.getBoundingClientRect().top
+        const screenPosition = window.innerHeight / 1.3
+
+        if( statPosition < screenPosition && !stat.hasAttribute( 'data-animated' ) ) {
+          const target = parseInt( stat.getAttribute( 'data-count' ) )
+          const duration = 2000
+          const increment = target / ( duration / 16 )
+          let current = 0
+
+          stat.setAttribute( 'data-animated', 'true' )
+
+          const timer = setInterval( () => {
+            current += increment
+            if( current >= target ) {
+              clearInterval( timer )
+              stat.textContent = target
+            } else {
+              stat.textContent = Math.round( current )
+            }
+          }, 16 )
+        }
+      } )
+    }
+
+    window.addEventListener( 'scroll', checkScroll )
+    window.addEventListener( 'load', checkScroll )
+
+    // Bounce animation for floating buttons every 5 seconds
+    setInterval( () => {
+      const floatingBtns = document.querySelectorAll( '.floating-btn' )
+      floatingBtns.forEach( btn => {
+        btn.classList.remove( 'bounce' )
+        void btn.offsetWidth // Trigger reflow
+        btn.classList.add( 'bounce' )
+      } )
+    }, 5000 );
+  </script>
 </body>
-
 
 </html>
